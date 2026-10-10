@@ -6,12 +6,29 @@
 <title>Koolby224 - Gestion Commerciale</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-body { background: #f0f2f5; min-height: 100vh; }
+
+body {
+min-height: 100vh;
+background: url('https://images.unsplash.com/photo-1556740755-069a40165b40?w=1920&q=80') no-repeat center center fixed;
+background-size: cover;
+position: relative;
+}
+
+body::before {
+content: '';
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(109, 71, 160, 0.85);
+z-index: -1;
+}
+
 .cacher { display: none !important; }
 
-/* Écran de bienvenue */
-#ecranBienvenue {
-background: linear-gradient(135deg, #6B21A8 0%, #8B5CF0 100%);
+/* === Écran de connexion === */
+#ecranConnexion {
 min-height: 100vh;
 display: flex;
 flex-direction: column;
@@ -21,135 +38,223 @@ padding: 20px;
 color: white;
 text-align: center;
 }
-.logo { font-size: 60px; margin-bottom: 10px; }
-h1 { font-size: 32px; margin-bottom: 8px; }
-.sous-titre { font-size: 16px; opacity: 0.9; margin-bottom: 40px; }
-.form-bienvenue {
-background: white;
-border-radius: 16px;
-padding: 30px 25px;
-width: 100%;
-max-width: 400px;
-box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-color: #333;
-}
-.form-bienvenue h2 { color: #6B21A8; margin-bottom: 20px; font-size: 20px; }
-label { display: block; text-align: left; margin: 12px 0 5px; font-weight: 500; font-size: 14px; }
-input {
-width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;
-font-size: 16px; transition: border 0.3s;
-}
-input:focus { outline: none; border-color: #6B21A8; }
-.btn {
-width: 100%; padding: 14px; border: none; border-radius: 8px;
-font-size: 17px; font-weight: 600; cursor: pointer; margin-top: 18px;
-transition: transform 0.15s, opacity 0.15s;
-}
-.btn:active { transform: scale(0.98); }
-.btn-principal { background: #6B21A8; color: white; }
-.btn-principal:hover { background: #5B1FA8; }
-.btn-secondaire { background: #E9D5FF; color: #6B21A8; }
-.message-bienvenue { margin-top: 20px; font-size: 15px; line-height: 1.6; }
-.compte-admin { margin-top: 25px; padding-top: 20px; border-top: 1px solid #eee; }
-.compte-admin h3 { font-size: 15px; color: #666; margin-bottom: 12px; }
-.btn-admin { background: #F3E8FF; color: #6B21A8; }
 
-/* Application principale */
-.entete { background: #6B21A8; color: white; padding: 15px; text-align: center; position: relative; }
-.entete h1 { font-size: 22px; }
+.logo { font-size: 70px; margin-bottom: 10px; text-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+h1 { font-size: 36px; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+.sous-titre { font-size: 17px; opacity: 0.95; margin-bottom: 35px; }
+
+.form-boite {
+background: rgba(255, 255, 255, 0.96);
+border-radius: 20px;
+padding: 35px 28px;
+width: 100%;
+max-width: 420px;
+box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+color: #333;
+backdrop-filter: blur(10px);
+}
+
+.form-boite h2 { color: #6B21A8; margin-bottom: 22px; font-size: 22px; }
+
+label {
+display: block; text-align: left; margin: 14px 0 6px;
+font-weight: 500; font-size: 15px; color: #444;
+}
+
+input {
+width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 10px;
+font-size: 16px; transition: all 0.3s ease;
+background: #fcfcfc;
+}
+
+input:focus { outline: none; border-color: #6B21A8; background: #fff; box-shadow: 0 0 0 4px rgba(107, 33, 168, 0.1); }
+
+.btn {
+width: 100%; padding: 15px; border: none; border-radius: 10px;
+font-size: 17px; font-weight: 600; cursor: pointer; margin-top: 20px;
+transition: all 0.2s ease;
+}
+
+.btn:active { transform: scale(0.98); }
+.btn-principal { background: linear-gradient(135deg, #6B21A8 0%, #7C3AED 100%); color: white; box-shadow: 0 4px 12px rgba(107, 33, 168, 0.3); }
+.btn-principal:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(107, 33, 168, 0.4); }
+.btn-secondaire { background: #EDE9FE; color: #6B21A8; }
+.btn-secondaire:hover { background: #DDD6FE; }
+
+.liens { margin-top: 22px; font-size: 15px; }
+.liens a { color: #6B21A8; cursor: pointer; text-decoration: none; font-weight: 500; }
+.liens a:hover { text-decoration: underline; }
+
+.message { margin-top: 18px; padding: 14px; border-radius: 8px; font-size: 15px; display: none; line-height: 1.5; }
+.message.succes { background: #D1FAE5; color: #065F46; display: block; border-left: 4px solid #10B981; }
+.message.erreur { background: #FEE2E2; color: #991B1B; display: block; border-left: 4px solid #EF4444; }
+
+/* === Application principale === */
+.entete {
+background: linear-gradient(135deg, #6B21A8 0%, #7C3AED 100%);
+color: white; padding: 18px; text-align: center; position: relative;
+box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.entete h1 { font-size: 22px; text-shadow: none; }
+.info-utilisateur { font-size: 14px; opacity: 0.9; margin-top: 6px; }
+
 .btn-deconnexion {
 position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
-background: rgba(255,255,255,0.25); color: white; border: none; padding: 8px 12px;
-border-radius: 6px; font-size: 14px; cursor: pointer;
+background: rgba(255,255,255,0.2); color: white; border: none; padding: 10px 16px;
+border-radius: 8px; font-size: 15px; cursor: pointer; transition: background 0.2s;
 }
-.nav { display: flex; overflow-x: auto; background: white; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
-.nav-btn {
-padding: 12px 15px; border: none; background: white; color: #555; font-size: 14px;
-white-space: nowrap; cursor: pointer; border-bottom: 3px solid transparent;
-}
-.nav-btn.actif { border-bottom-color: #6B21A8; color: #6B21A8; font-weight: 600; }
-.contenu { padding: 15px; max-width: 600px; margin: 0 auto; }
-.carte {
-background: white; border-radius: 12px; padding: 18px; margin-bottom: 15px;
-box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
-.carte h2 { font-size: 18px; color: #6B21A8; margin-bottom: 15px; }
-.ligne { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
-.ligne input, .ligne button { flex: 1; min-width: 140px; }
-button {
-padding: 10px 14px; border: none; border-radius: 6px; font-size: 15px; cursor: pointer;
-}
-.btn-ajouter { background: #10B981; color: white; }
-.btn-supprimer { background: #EF4444; color: white; }
-.btn-modifier { background: #3B82F6; color: white; }
-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
-th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #eee; }
-th { background: #F9FAFB; font-weight: 600; color: #333; }
-.alerte { background: #FEF3C7; color: #92400E; padding: 10px; border-radius: 6px; margin-top: 10px; display: none; }
-.facture-entete { text-align: center; margin-bottom: 20px; }
-.facture-titre { font-size: 22px; font-weight: bold; color: #6B21A8; margin-bottom: 5px; }
-.facture-info { font-size: 14px; color: #555; line-height: 1.5; }
-.facture-table { width: 100%; margin: 20px 0; }
-.facture-total { text-align: right; font-size: 18px; font-weight: bold; margin-top: 15px; }
-.facture-boutons { display: flex; gap: 10px; margin-top: 20px; }
-.btn-whatsapp { background: #25D366; color: white; }
-.btn-imprimer { background: #6B21A8; color: white; }
-.panier-produit { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #F9FAFB; border-radius: 6px; margin-bottom: 8px; }
-.panier-total { text-align: right; font-size: 18px; font-weight: bold; margin: 15px 0; }
-.reste-apayer { color: #EF4444; font-weight: 600; }
-.paiement-reussi { color: #10B981; font-weight: 600; }
 
-/* Impression */
+.btn-deconnexion:hover { background: rgba(255,255,255,0.3); }
+
+.nav {
+display: flex; overflow-x: auto; background: white; border-bottom: 1px solid #e5e7eb;
+position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.nav-btn {
+padding: 14px 16px; border: none; background: white; color: #6b7280; font-size: 15px;
+white-space: nowrap; cursor: pointer; border-bottom: 3px solid transparent;
+transition: all 0.2s;
+}
+
+.nav-btn.actif { border-bottom-color: #6B21A8; color: #6B21A8; font-weight: 600; background: #FAF5FF; }
+.nav-btn:hover { color: #6B21A8; background: #FAF5FF; }
+
+.contenu { padding: 16px; max-width: 650px; margin: 0 auto; }
+
+.carte {
+background: rgba(255, 255, 255, 0.96); border-radius: 16px; padding: 22px; margin-bottom: 18px;
+box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+backdrop-filter: blur(10px);
+}
+
+.carte h2 { font-size: 19px; color: #6B21A8; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+.carte h3 { font-size: 16px; color: #4B5563; margin: 24px 0 12px; }
+
+.ligne { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
+.ligne input, .ligne select, .ligne button { flex: 1; min-width: 140px; }
+
+button {
+padding: 12px 16px; border: none; border-radius: 8px; font-size: 15px; cursor: pointer;
+font-weight: 500; transition: all 0.2s;
+}
+
+button:hover { transform: translateY(-1px); }
+button:active { transform: translateY(0); }
+
+.btn-ajouter { background: #10B981; color: white; }
+.btn-ajouter:hover { background: #059669; }
+.btn-supprimer { background: #EF4444; color: white; }
+.btn-supprimer:hover { background: #DC2626; }
+.btn-modifier { background: #3B82F6; color: white; }
+.btn-modifier:hover { background: #2563EB; }
+.btn-panier { background: #059669; color: white; width: 100%; font-size: 17px; padding: 14px; }
+.btn-panier:hover { background: #047857; }
+.btn-enregistrer { background: linear-gradient(135deg, #6B21A8 0%, #7C3AED 100%); color: white; width: 100%; font-size: 17px; padding: 14px; }
+.btn-enregistrer:disabled { background: #9CA3AF; cursor: not-allowed; transform: none; }
+
+table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }
+th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid #f3f4f6; }
+th { background: #F9FAFB; font-weight: 600; color: #374151; font-size: 14px; }
+tr:hover { background: #FAFAFA; }
+
+.alerte { background: #FEF3C7; color: #92400E; padding: 12px 16px; border-radius: 8px; margin-top: 12px; display: none; border-left: 4px solid #F59E0B; }
+.panier-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #F9FAFB; border-radius: 8px; margin-top: 8px; }
+.panier-total { font-size: 20px; font-weight: bold; text-align: right; margin: 18px 0 10px; color: #1F2937; }
+.reste-info { margin-top: 12px; padding: 10px; background: #FEF2F2; border-radius: 6px; color: #991B1B; font-weight: 500; }
+
+/* === Facture === */
+.facture-entete { text-align: center; margin-bottom: 25px; }
+.facture-nom-entreprise { font-size: 24px; font-weight: bold; color: #6B21A8; margin-bottom: 8px; }
+.facture-info-entreprise { font-size: 14px; color: #555; line-height: 1.6; }
+.facture-hr { border: none; border-top: 2px dashed #ddd; margin: 20px 0; }
+.facture-table { width: 100%; margin: 20px 0; border-collapse: collapse; }
+.facture-table th, .facture-table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+.facture-table th { background: #f5f5f5; font-weight: 600; }
+.facture-total { text-align: right; font-size: 18px; font-weight: bold; margin-top: 20px; line-height: 1.8; }
+.facture-boutons { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+.btn-imprimer { background: #6B21A8; color: white; }
+.btn-whatsapp { background: #25D366; color: white; }
+
+/* === Impression === */
 @media print {
 body { background: white; }
 .entete, .nav, .facture-boutons, .pas-imprimer { display: none !important; }
-.contenu { padding: 0; }
+.contenu { padding: 0; max-width: 100%; }
+.carte { box-shadow: none; padding: 0; background: white; }
 }
 
-/* Responsive */
+/* === Responsive === */
 @media (max-width: 480px) {
 .ligne { flex-direction: column; }
 .ligne input, .ligne button { width: 100%; }
 button { width: 100%; }
+.btn-deconnexion { position: static; transform: none; margin-top: 10px; }
+.entete { padding-bottom: 15px; }
+table { font-size: 12px; }
+th, td { padding: 8px 5px; }
 }
 </style>
 </head>
 <body>
 
-<!-- Écran de bienvenue / inscription -->
-<div id="ecranBienvenue">
+<!-- ================= ÉCRAN DE CONNEXION ================= -->
+<div id="ecranConnexion">
 <div class="logo">🏪</div>
 <h1>Koolby224</h1>
 <p class="sous-titre">vous souhaite la bienvenue !</p>
 
-<div class="form-bienvenue">
+<!-- Inscription -->
+<div class="form-boite" id="boiteInscription">
 <h2>S'inscrire gratuitement</h2>
 <label>Nom et Prénom</label>
 <input type="text" id="nomUtilisateur" placeholder="Votre nom">
-
 <label>Numéro WhatsApp</label>
 <input type="tel" id="numeroWhatsApp" placeholder="Ex: 620000000">
-
 <button class="btn btn-principal" onclick="sInscrire()">S'inscrire gratuitement</button>
-<button class="btn btn-secondaire" onclick="seConnecter()">J'ai déjà un compte</button>
+<div class="liens">
+Déjà un compte ? <a onclick="afficherConnexion()">J'ai déjà un compte</a>
+</div>
+<div class="liens">
+<a onclick="afficherAdmin()">Accès Administrateur</a>
+</div>
+<div id="msgInscription" class="message"></div>
+</div>
 
-<div class="compte-admin">
-<h3>Accès Administrateur</h3>
-<input type="password" id="codeAdmin" placeholder="Code administrateur">
-<button class="btn btn-admin" onclick="connexionAdmin()">Se connecter en tant qu'Admin</button>
+<!-- Connexion -->
+<div class="form-boite cacher" id="boiteConnexion">
+<h2>Se connecter</h2>
+<label>Votre numéro WhatsApp</label>
+<input type="tel" id="telConnexion" placeholder="Ex: 620000000">
+<button class="btn btn-principal" onclick="seConnecter()">Se connecter</button>
+<div class="liens">
+Pas encore de compte ? <a onclick="afficherInscription()">S'inscrire gratuitement</a>
+</div>
+<div class="liens">
+<a onclick="afficherAdmin()">Accès Administrateur</a>
+</div>
+<div id="msgConnexion" class="message"></div>
+</div>
+
+<!-- Admin -->
+<div class="form-boite cacher" id="boiteAdmin">
+<h2>🔒 Accès Administrateur</h2>
+<label>Code administrateur</label>
+<input type="password" id="codeAdmin" placeholder="Tapez le code">
+<button class="btn btn-principal" onclick="connexionAdmin()">Se connecter en tant qu'Admin</button>
+<div class="liens">
+<a onclick="afficherInscription()">← Retour</a>
+</div>
+<div id="msgAdmin" class="message"></div>
 </div>
 </div>
 
-<p class="message-bienvenue" id="messageBienvenue" style="display:none;">
-✅ Bienvenue ! Vous pouvez utiliser l'application gratuitement pendant 7 jours.<br>
-Après cette période, appelez le <strong>621657979</strong> pour obtenir votre code d'accès illimité.
-</p>
-</div>
-
-<!-- Application principale -->
+<!-- ================= APPLICATION PRINCIPALE ================= -->
 <div id="appPrincipale" class="cacher">
 <div class="entete">
-<h1 id="titreApp">Koolby224 - Gestion Commerciale</h1>
+<h1>Koolby224 - Gestion Commerciale</h1>
+<p class="info-utilisateur" id="infoUtilisateur"></p>
 <button class="btn-deconnexion" onclick="seDeconnecter()">Déconnexion</button>
 </div>
 
@@ -160,28 +265,27 @@ Après cette période, appelez le <strong>621657979</strong> pour obtenir votre 
 <button class="nav-btn" onclick="ongletAfficher('impayes')">Impayés</button>
 <button class="nav-btn" onclick="ongletAfficher('facture')">Facture</button>
 <button class="nav-btn" onclick="ongletAfficher('entreprise')">Entreprise</button>
-<button class="nav-btn cacher" id="ongletAdmin" onclick="ongletAfficher('admin')">Admin</button>
 </div>
 
 <div class="contenu">
-<!-- Tableau de bord -->
+<!-- === TABLEAU DE BORD === -->
 <div id="dashboard">
 <div class="carte">
 <h2>📊 Tableau de bord</h2>
-<p><strong>Bienvenue, </strong><span id="afficherNomUtilisateur"></span> !</p>
+<p><strong>Bienvenue, </strong><span id="afficherNom"></span> !</p>
 <br>
 <div class="ligne">
-<div style="flex:1; background:#E9D5FF; padding:15px; border-radius:8px; text-align:center;">
-<div style="font-size:24px; font-weight:bold; color:#6B21A8;" id="totalProduits">0</div>
-<div style="font-size:13px; color:#555;">Produits</div>
+<div style="flex:1; background:#EDE9FE; padding:20px; border-radius:12px; text-align:center;">
+<div style="font-size:28px; font-weight:bold; color:#6B21A8;" id="nbProduits">0</div>
+<div style="font-size:14px; color:#555; margin-top:5px;">Produits</div>
 </div>
-<div style="flex:1; background:#D1FAE5; padding:15px; border-radius:8px; text-align:center;">
-<div style="font-size:24px; font-weight:bold; color:#065F46;" id="totalVentesJour">0</div>
-<div style="font-size:13px; color:#555;">CA du jour (GNF)</div>
+<div style="flex:1; background:#D1FAE5; padding:20px; border-radius:12px; text-align:center;">
+<div style="font-size:28px; font-weight:bold; color:#065F46;" id="caJour">0</div>
+<div style="font-size:14px; color:#555; margin-top:5px;">CA du jour (GNF)</div>
 </div>
-<div style="flex:1; background:#FEE2E2; padding:15px; border-radius:8px; text-align:center;">
-<div style="font-size:24px; font-weight:bold; color:#991B1B;" id="totalImpayes">0</div>
-<div style="font-size:13px; color:#555;">Impayés (GNF)</div>
+<div style="flex:1; background:#FEE2E2; padding:20px; border-radius:12px; text-align:center;">
+<div style="font-size:28px; font-weight:bold; color:#991B1B;" id="totalImpayes">0</div>
+<div style="font-size:14px; color:#555; margin-top:5px;">Impayés (GNF)</div>
 </div>
 </div>
 <br>
@@ -189,7 +293,7 @@ Après cette période, appelez le <strong>621657979</strong> pour obtenir votre 
 </div>
 </div>
 
-<!-- Produits -->
+<!-- === PRODUITS === -->
 <div id="produits" class="cacher">
 <div class="carte">
 <h2>📦 Gestion des Produits</h2>
@@ -204,13 +308,13 @@ Après cette période, appelez le <strong>621657979</strong> pour obtenir votre 
 <div class="alerte" id="alerteStock">⚠️ Attention : Stock faible !</div>
 <div class="ligne">
 <button class="btn-ajouter" onclick="ajouterProduit()">Ajouter produit</button>
-<button class="btn-modifier" onclick="modifierProduit()">Modifier sélection</button>
+<button class="btn-modifier" onclick="modifierProduit()">Modifier</button>
 <button class="btn-supprimer" onclick="supprimerProduit()">Supprimer</button>
 </div>
 </div>
 <div class="carte">
 <h2>Liste des produits</h2>
-<table id="tableProduits">
+<table>
 <thead>
 <tr>
 <th>Nom</th>
@@ -226,7 +330,7 @@ Après cette période, appelez le <strong>621657979</strong> pour obtenir votre 
 </div>
 </div>
 
-<!-- Ventes -->
+<!-- === VENTES === -->
 <div id="ventes" class="cacher">
 <div class="carte">
 <h2>🛒 Nouvelle Vente</h2>
@@ -234,25 +338,28 @@ Après cette période, appelez le <strong>621657979</strong> pour obtenir votre 
 <input type="text" id="nomClient" placeholder="Nom du client">
 <input type="tel" id="telClient" placeholder="Téléphone client">
 </div>
-<h4 style="margin:15px 0 10px;">Ajouter au panier</h4>
+<h4 style="margin:18px 0 10px;">Ajouter au panier</h4>
 <div class="ligne">
-<select id="choisirProduit" style="flex:2; padding:10px; border-radius:6px; border:1px solid #ccc;">
+<select id="choisirProduit" style="flex:2; padding:12px; border-radius:8px; border:2px solid #e5e7eb; font-size:15px;">
 <option value="">-- Choisir un produit --</option>
 </select>
-<input type="number" id="quantiteVente" placeholder="Qté" min="1" style="flex:1;">
-<button class="btn-ajouter" onclick="ajouterAuPanier()">+ Panier</button>
+<input type="number" id="quantiteVente" placeholder="Qté" min="1" value="1" style="flex:1;">
+<button class="btn-panier" onclick="ajouterAuPanier()">+ Panier</button>
 </div>
+
 <div id="panier"></div>
 <div class="panier-total">Total : <span id="montantTotal">0</span> GNF</div>
+
 <div class="ligne">
 <input type="number" id="montantPaye" placeholder="Montant payé">
-<button class="btn-principal" onclick="enregistrerVente()">Enregistrer la vente</button>
+<button class="btn-enregistrer" id="btnEnregistrer" onclick="enregistrerVente()">Enregistrer la vente</button>
 </div>
-<p class="reste-apayer" id="resteAPayer"></p>
+<div class="reste-info" id="resteInfo" style="display:none;"></div>
 </div>
+
 <div class="carte">
 <h2>Historique des ventes</h2>
-<table id="tableVentes">
+<table>
 <thead>
 <tr>
 <th>Date</th>
@@ -268,7 +375,7 @@ Après cette période, appelez le <strong>621657979</strong> pour obtenir votre 
 </div>
 </div>
 
-<!-- Impayés -->
+<!-- === IMPAYÉS === -->
 <div id="impayes" class="cacher">
 <div class="carte">
 <h2>💰 Crédits Impayés</h2>
@@ -287,7 +394,7 @@ Après cette période, appelez le <strong>621657979</strong> pour obtenir votre 
 </div>
 </div>
 
-<!-- Facture -->
+<!-- === FACTURE === -->
 <div id="facture" class="cacher">
 <div class="carte">
 <h2>🔍 Rechercher une facture</h2>
@@ -296,23 +403,25 @@ Après cette période, appelez le <strong>621657979</strong> pour obtenir votre 
 <button class="btn-principal" onclick="chercherFacture()">Rechercher</button>
 </div>
 </div>
+
 <div class="carte" id="zoneFacture">
 <div class="facture-entete">
-<div class="facture-titre" id="factureNomEntreprise">ENSEB-CLIM</div>
-<div class="facture-info" id="factureInfoEntreprise">
+<div class="facture-nom-entreprise" id="factureNomEntreprise">ENSEB-CLIM</div>
+<div class="facture-info-entreprise" id="factureInfoEntreprise">
 Installation Energie Solaire, Electricité Bâtiment et Climatisation<br>
 Adresse: Bentrouraya, Carrefour A. Dieng<br>
 Tél: 620-34-99-50 / 628-98-38-83 / 614-07-67-16<br>
 NºRCCM: GN.TCC.2024, A 03655
 </div>
-<hr style="margin:15px 0; border:none; border-top:1px solid #ddd;">
-<div>
+<hr class="facture-hr">
+<div style="font-size:16px; line-height:1.8;">
 <strong>Nº Facture :</strong> <span id="factureNum"></span><br>
 <strong>Date :</strong> <span id="factureDate"></span><br>
 <strong>Client :</strong> <span id="factureClient"></span><br>
 <strong>Téléphone :</strong> <span id="factureTel"></span>
 </div>
 </div>
+
 <table class="facture-table">
 <thead>
 <tr>
@@ -324,12 +433,14 @@ NºRCCM: GN.TCC.2024, A 03655
 </thead>
 <tbody id="factureContenu"></tbody>
 </table>
+
 <div class="facture-total">
 Total : <span id="factureTotal">0</span> GNF<br>
 Payé : <span id="facturePaye">0</span> GNF<br>
 Reste à payer : <span id="factureReste">0</span> GNF<br>
 Statut : <span id="factureStatut">En cours</span>
 </div>
+
 <div class="facture-boutons pas-imprimer">
 <button class="btn-imprimer" onclick="imprimerFacture()">🖨️ Imprimer</button>
 <button class="btn-whatsapp" onclick="partagerWhatsApp()">📲 WhatsApp</button>
@@ -337,13 +448,13 @@ Statut : <span id="factureStatut">En cours</span>
 </div>
 </div>
 
-<!-- Entreprise -->
+<!-- === ENTREPRISE === -->
 <div id="entreprise" class="cacher">
 <div class="carte">
 <h2>🏢 Informations de l'entreprise</h2>
 <div class="ligne">
 <input type="text" id="nomEntreprise" placeholder="Nom de l'entreprise">
-<input type="text" id="sloganEntreprise" placeholder="Slogan">
+<input type="text" id="sloganEntreprise" placeholder="Activité / Slogan">
 </div>
 <div class="ligne">
 <input type="text" id="adresseEntreprise" placeholder="Adresse">
@@ -355,154 +466,161 @@ Statut : <span id="factureStatut">En cours</span>
 </div>
 </div>
 </div>
-
-<!-- Admin -->
-<div id="admin" class="cacher">
-<div class="carte">
-<h2>👤 Administration</h2>
-<h3>Utilisateurs connectés</h3>
-<table>
-<thead>
-<tr>
-<th>Nom</th>
-<th>WhatsApp</th>
-<th>Date d'inscription</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody id="listeUtilisateurs"></tbody>
-</table>
-</div>
-</div>
 </div>
 </div>
 
 <script>
-// === DONNÉES LOCALES ===
+// === VARIABLES GLOBALES ===
 let utilisateurActuel = null;
-let estAdmin = false;
 let panier = [];
-let produitSelectionne = null;
 let factureActuelle = null;
+let produitSelectionne = null;
+let venteEnCours = false; // Empêche les clics multiples
 
-// Initialisation
-document.getElementById('dateDuJour').textContent = new Date().toLocaleDateString('fr-FR', {
-day: 'numeric', month: 'long', year: 'numeric'
-});
+// === INITIALISATION ===
+document.getElementById('dateDuJour').textContent = 
+new Date().toLocaleDateString('fr-FR', { day: 'long', month: 'long', year: 'numeric' });
 
-// === FONCTIONS UTILISATEUR ===
+chargerEntreprise();
+
+// === AFFICHAGE DES ÉCRANS ===
+function afficherInscription() {
+document.getElementById('boiteInscription').classList.remove('cacher');
+document.getElementById('boiteConnexion').classList.add('cacher');
+document.getElementById('boiteAdmin').classList.add('cacher');
+cacherMessages();
+}
+
+function afficherConnexion() {
+document.getElementById('boiteInscription').classList.add('cacher');
+document.getElementById('boiteConnexion').classList.remove('cacher');
+document.getElementById('boiteAdmin').classList.add('cacher');
+cacherMessages();
+}
+
+function afficherAdmin() {
+document.getElementById('boiteInscription').classList.add('cacher');
+document.getElementById('boiteConnexion').classList.add('cacher');
+document.getElementById('boiteAdmin').classList.remove('cacher');
+cacherMessages();
+}
+
+function cacherMessages() {
+document.querySelectorAll('.message').forEach(m => m.style.display = 'none');
+}
+
+function afficherMessage(id, type, texte) {
+const el = document.getElementById(id);
+el.className = 'message ' + type;
+el.textContent = texte;
+el.style.display = 'block';
+}
+
+// === INSCRIPTION ===
 function sInscrire() {
 const nom = document.getElementById('nomUtilisateur').value.trim();
 const tel = document.getElementById('numeroWhatsApp').value.trim();
-const email = document.getElementById('emailUtilisateur') ? document.getElementById('emailUtilisateur').value.trim() : '';
 
-if (!nom || !tel) { alert('Veuillez remplir tous les champs !'); return; }
+if (!nom || !tel) {
+afficherMessage('msgInscription', 'erreur', '⚠️ Veuillez remplir tous les champs !');
+return;
+}
 
 const utilisateurs = JSON.parse(localStorage.getItem('utilisateurs') || '[]');
-const existant = utilisateurs.find(u => u.tel === tel);
+if (utilisateurs.some(u => u.tel === tel)) {
+afficherMessage('msgInscription', 'erreur', '⚠️ Ce numéro est déjà inscrit !');
+return;
+}
 
-if (existant) {
-utilisateurActuel = existant;
-} else {
-const nouvelUtilisateur = {
-id: Date.now(),
+utilisateurs.push({
 nom: nom,
 tel: tel,
-email: email,
-dateInscription: new Date().toISOString(),
-estAdmin: false
-};
-utilisateurs.push(nouvelUtilisateur);
+dateInscription: new Date().toISOString()
+});
+
 localStorage.setItem('utilisateurs', JSON.stringify(utilisateurs));
-utilisateurActuel = nouvelUtilisateur;
+utilisateurActuel = { nom, tel, estAdmin: false };
+
+afficherMessage('msgInscription', 'succes', '✅ Bienvenue, ' + nom + ' !');
+setTimeout(ouvrirApplication, 1000);
 }
 
-localStorage.setItem('utilisateurActuel', JSON.stringify(utilisateurActuel));
-ouvrirApplication();
-}
-
+// === CONNEXION ===
 function seConnecter() {
-const tel = prompt('Entrez votre numéro WhatsApp :');
-if (!tel) return;
+const tel = document.getElementById('telConnexion').value.trim();
+
+if (!tel) {
+afficherMessage('msgConnexion', 'erreur', '⚠️ Entrez votre numéro WhatsApp !');
+return;
+}
 
 const utilisateurs = JSON.parse(localStorage.getItem('utilisateurs') || '[]');
-const trouve = utilisateurs.find(u => u.tel === tel.trim());
+const trouve = utilisateurs.find(u => u.tel === tel);
 
 if (trouve) {
-utilisateurActuel = trouve;
-localStorage.setItem('utilisateurActuel', JSON.stringify(utilisateurActuel));
-ouvrirApplication();
+utilisateurActuel = { ...trouve, estAdmin: false };
+afficherMessage('msgConnexion', 'succes', '✅ Bon retour, ' + trouve.nom + ' !');
+setTimeout(ouvrirApplication, 800);
 } else {
-alert('Aucun compte trouvé avec ce numéro. Veuillez vous inscrire.');
+afficherMessage('msgConnexion', 'erreur', '❌ Aucun compte trouvé. Inscrivez-vous d\'abord.');
 }
 }
 
+// === CONNEXION ADMIN ===
 function connexionAdmin() {
 const code = document.getElementById('codeAdmin').value.trim();
+
 if (code === 'Admin2026') {
-localStorage.setItem('estAdmin', 'oui');
-document.getElementById('ecranConnexion').classList.add('cacher');
-document.getElementById('appPrincipale').classList.remove('cacher');
-document.getElementById('ongletAdmin').classList.remove('cacher');
-document.getElementById('infoUtilisateurConnecte').innerHTML = '🔒 Administrateur';
-rafraichirTableauDeBord();
-rafraichirListeProduits();
-rafraichirListeVentes();
-rafraichirImpayes();
-rafraichirListeUtilisateurs();
+utilisateurActuel = { nom: 'Administrateur', tel: 'Admin', estAdmin: true };
+afficherMessage('msgAdmin', 'succes', '✅ Bienvenue Administrateur !');
+setTimeout(ouvrirApplication, 800);
 } else {
-alert('❌ Code administrateur incorrect !');
+afficherMessage('msgAdmin', 'erreur', '❌ Code incorrect !');
 }
 }
 
-
-function ouvrirApplication() {
-document.getElementById('ecranBienvenue').classList.add('cacher');
-document.getElementById('appPrincipale').classList.remove('cacher');
-document.getElementById('afficherNomUtilisateur').textContent = utilisateurActuel.nom;
-
-if (utilisateurActuel.estAdmin) {
-document.getElementById('ongletAdmin').classList.remove('cacher');
-}
-
-chargerEntreprise();
-rafraichirTableauDeBord();
-rafraichirListeProduits();
-rafraichirListeVentes();
-rafraichirImpayes();
-rafraichirChoixProduits();
-rafraichirListeUtilisateurs();
-}
-
+// === DÉCONNEXION ===
 function seDeconnecter() {
-localStorage.removeItem('utilisateurActuel');
+if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
 utilisateurActuel = null;
-estAdmin = false;
 panier = [];
+document.getElementById('ecranConnexion').classList.remove('cacher');
 document.getElementById('appPrincipale').classList.add('cacher');
-document.getElementById('ecranBienvenue').classList.remove('cacher');
+document.getElementById('telConnexion').value = '';
+document.getElementById('codeAdmin').value = '';
 document.getElementById('nomUtilisateur').value = '';
 document.getElementById('numeroWhatsApp').value = '';
-document.getElementById('codeAdmin').value = '';
-document.getElementById('ongletAdmin').classList.add('cacher');
-ongletAfficher('dashboard');
+cacherMessages();
+afficherInscription();
+}
+}
+
+// === OUVRIR L'APPLICATION ===
+function ouvrirApplication() {
+document.getElementById('ecranConnexion').classList.add('cacher');
+document.getElementById('appPrincipale').classList.remove('cacher');
+
+document.getElementById('afficherNom').textContent = utilisateurActuel.nom;
+document.getElementById('infoUtilisateur').textContent = 
+utilisateurActuel.estAdmin ? '🔒 Administrateur' : utilisateurActuel.nom + ' — ' + utilisateurActuel.tel;
+
+rafraichirTableauDeBord();
+rafraichirListeProduits();
+rafraichirChoixProduits();
+rafraichirListeVentes();
+rafraichirImpayes();
 }
 
 // === GESTION DES ONGLETS ===
-function ongletAfficher(nomOnglet) {
-// Cacher tous les contenus
+function ongletAfficher(nom) {
 document.querySelectorAll('.contenu > div').forEach(div => div.classList.add('cacher'));
-// Désactiver tous les boutons
 document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('actif'));
-// Afficher le bon contenu
-document.getElementById(nomOnglet).classList.remove('cacher');
-// Activer le bon bouton
+document.getElementById(nom).classList.remove('cacher');
 event.target.classList.add('actif');
 
-if (nomOnglet === 'produits') rafraichirListeProduits();
-if (nomOnglet === 'ventes') { rafraichirChoixProduits(); rafraichirListeVentes(); }
-if (nomOnglet === 'impayes') rafraichirImpayes();
-if (nomOnglet === 'admin') rafraichirListeUtilisateurs();
+if (nom === 'produits') rafraichirListeProduits();
+if (nom === 'ventes') { rafraichirChoixProduits(); rafraichirListeVentes(); }
+if (nom === 'impayes') rafraichirImpayes();
 }
 
 // === PRODUITS ===
@@ -515,7 +633,6 @@ const stock = parseInt(document.getElementById('stockActuel').value) || 0;
 if (!nom) { alert('Nom du produit obligatoire !'); return; }
 
 const produits = JSON.parse(localStorage.getItem('produits') || '[]');
-// Éviter les doublons
 if (produits.some(p => p.nom.toLowerCase() === nom.toLowerCase())) {
 alert('Ce produit existe déjà !'); return;
 }
@@ -547,14 +664,13 @@ tr.innerHTML = `
 <td>${p.nom}</td>
 <td>${p.prixAchat}</td>
 <td>${p.prixVente}</td>
-<td style="${p.stock <= 5 ? 'color:red; font-weight:bold;' : ''}">${p.stock}</td>
+<td style="${p.stock <= 5 ? 'color:#DC2626; font-weight:bold;' : ''}">${p.stock}</td>
 <td>${p.interet}</td>
-<td><input type="radio" name="produitSel" value="${p.id}" onchange="produitSelectionne=${p.id}"></td>
+<td><input type="radio" name="selProduit" value="${p.id}" onchange="produitSelectionne=${p.id}"></td>
 `;
 tbody.appendChild(tr);
 });
 
-// Alerte stock
 const stockFaible = produits.some(p => p.stock <= 5 && p.stock > 0);
 document.getElementById('alerteStock').style.display = stockFaible ? 'block' : 'none';
 }
@@ -567,9 +683,9 @@ const idx = produits.findIndex(p => p.id === produitSelectionne);
 if (idx === -1) return;
 
 const nouveauNom = prompt('Nouveau nom :', produits[idx].nom);
-const nouveauAchat = prompt('Nouveau prix d\'achat :', produits[idx].prixAchat);
-const nouveauVente = prompt('Nouveau prix de vente :', produits[idx].prixVente);
-const nouveauStock = prompt('Nouveau stock :', produits[idx].stock);
+const nouveauAchat = prompt('Prix d\'achat :', produits[idx].prixAchat);
+const nouveauVente = prompt('Prix de vente :', produits[idx].prixVente);
+const nouveauStock = prompt('Stock :', produits[idx].stock);
 
 if (nouveauNom && nouveauAchat && nouveauVente && nouveauStock) {
 produits[idx].nom = nouveauNom.trim();
@@ -617,13 +733,13 @@ select.appendChild(opt);
 
 // === PANIER & VENTES ===
 function ajouterAuPanier() {
-const idProduit = parseInt(document.getElementById('choisirProduit').value);
+const id = parseInt(document.getElementById('choisirProduit').value);
 const qte = parseInt(document.getElementById('quantiteVente').value) || 1;
 
-if (!idProduit) { alert('Choisissez un produit !'); return; }
+if (!id) { alert('Choisissez un produit !'); return; }
 
 const produits = JSON.parse(localStorage.getItem('produits') || '[]');
-const produit = produits.find(p => p.id === idProduit);
+const produit = produits.find(p => p.id === id);
 
 if (produit.stock < qte) { alert('Stock insuffisant ! Disponible : ' + produit.stock); return; }
 
@@ -648,9 +764,9 @@ let total = 0;
 panier.forEach((item, index) => {
 total += item.total;
 div.innerHTML += `
-<div class="panier-produit">
-<span>${item.nom} × ${item.quantite} = ${item.total} GNF</span>
-<button style="background:#EF4444; color:white; padding:4px 8px; font-size:12px;" onclick="retirerDuPanier(${index})">✕</button>
+<div class="panier-item">
+<span><strong>${item.nom}</strong> × ${item.quantite} = ${item.total.toLocaleString('fr-FR')} GNF</span>
+<button style="background:#EF4444; color:white; padding:4px 10px; font-size:13px;" onclick="retirerDuPanier(${index})">×</button>
 </div>
 `;
 });
@@ -664,6 +780,8 @@ afficherPanier();
 }
 
 function enregistrerVente() {
+// ✅ Empêche les clics multiples
+if (venteEnCours) return;
 if (panier.length === 0) { alert('Ajoutez des produits au panier !'); return; }
 
 const nomClient = document.getElementById('nomClient').value.trim();
@@ -672,7 +790,13 @@ const montantPaye = parseFloat(document.getElementById('montantPaye').value) || 
 const montantTotal = panier.reduce((sum, i) => sum + i.total, 0);
 const reste = montantTotal - montantPaye;
 
-if (!nomClient || !telClient) { alert('Nom et téléphone du client obligatoires !'); return; }
+if (!nomClient || !telClient) {
+alert('Nom et téléphone du client obligatoires !');
+return;
+}
+
+venteEnCours = true; // Verrouillage
+document.getElementById('btnEnregistrer').disabled = true;
 
 // Mettre à jour le stock
 let produits = JSON.parse(localStorage.getItem('produits') || '[]');
@@ -690,7 +814,8 @@ numeroFacture: 'FACT-' + Date.now(),
 date: new Date().toLocaleDateString('fr-FR'),
 nomClient: nomClient,
 telClient: telClient,
-produits: [...panier],
+produits: panier.map(i => i.nom + '×' + i.quantite).join(', '),
+detailsProduits: [...panier],
 montantTotal: montantTotal,
 montantPaye: montantPaye,
 reste: reste,
@@ -700,11 +825,12 @@ utilisateur: utilisateurActuel.nom
 ventes.push(nouvelleVente);
 localStorage.setItem('ventes', JSON.stringify(ventes));
 
-// Mettre à jour ou créer l'impayé
+// ✅ Cumul progressif des impayés
 let impayes = JSON.parse(localStorage.getItem('impayes') || '[]');
 const idxClient = impayes.findIndex(imp => imp.telClient === telClient);
-if (reste > 0) {
+
 if (idxClient !== -1) {
+// Ajouter au reste existant
 impayes[idxClient].resteTotal += reste;
 impayes[idxClient].historique.push({
 date: nouvelleVente.date,
@@ -714,6 +840,7 @@ montantPaye: montantPaye,
 reste: reste
 });
 } else {
+// Nouveau client
 impayes.push({
 id: Date.now(),
 nomClient: nomClient,
@@ -728,10 +855,6 @@ reste: reste
 }]
 });
 }
-} else if (idxClient !== -1) {
-// Si reste = 0, on peut supprimer l'impayé
-impayes.splice(idxClient, 1);
-}
 localStorage.setItem('impayes', JSON.stringify(impayes));
 
 // Réinitialiser
@@ -739,36 +862,47 @@ panier = [];
 document.getElementById('nomClient').value = '';
 document.getElementById('telClient').value = '';
 document.getElementById('montantPaye').value = '';
-document.getElementById('resteAPayer').textContent = '';
 afficherPanier();
 
-alert('✅ Vente enregistrée !' + (reste > 0 ? ' Reste à payer : ' + reste + ' GNF' : ''));
+const message = reste > 0 
+? '✅ Vente enregistrée ! Reste à payer : ' + reste.toLocaleString('fr-FR') + ' GNF'
+: '✅ Vente enregistrée — Paiement complet !';
+
+alert(message);
+
+factureActuelle = nouvelleVente;
+afficherFacture(nouvelleVente);
 
 rafraichirTableauDeBord();
 rafraichirListeProduits();
 rafraichirListeVentes();
 rafraichirImpayes();
 
-// Générer la facture automatiquement
-factureActuelle = nouvelleVente;
-afficherFacture(factureActuelle);
-ongletAfficher('facture');
+// Déverrouiller
+venteEnCours = false;
+document.getElementById('btnEnregistrer').disabled = false;
 }
 
 function rafraichirListeVentes() {
-const ventes = JSON.parse(localStorage.getItem('ventes') || '[]').reverse();
+const ventes = JSON.parse(localStorage.getItem('ventes') || '[]');
 const tbody = document.getElementById('listeVentes');
 tbody.innerHTML = '';
 
-ventes.forEach(v => {
+if (ventes.length === 0) {
+tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888; padding:20px;">Aucune vente enregistrée</td></tr>';
+return;
+}
+
+// Afficher de la plus récente à la plus ancienne
+ventes.slice().reverse().forEach(v => {
 const tr = document.createElement('tr');
 tr.innerHTML = `
 <td>${v.date}</td>
 <td>${v.nomClient}</td>
-<td>${v.produits.map(p => p.nom + '×' + p.quantite).join(', ')}</td>
-<td>${v.montantTotal.toLocaleString('fr-FR')}</td>
+<td style="font-size:13px; max-width:150px;">${v.produits}</td>
+<td><strong>${v.montantTotal.toLocaleString('fr-FR')}</strong></td>
 <td>${v.montantPaye.toLocaleString('fr-FR')}</td>
-<td class="${v.reste > 0 ? 'reste-apayer' : 'paiement-reussi'}">${v.reste.toLocaleString('fr-FR')}</td>
+<td style="color:${v.reste > 0 ? '#DC2626' : '#10B981'}; font-weight:bold;">${v.reste.toLocaleString('fr-FR')}</td>
 `;
 tbody.appendChild(tr);
 });
@@ -780,19 +914,24 @@ const impayes = JSON.parse(localStorage.getItem('impayes') || '[]');
 const tbody = document.getElementById('listeImpayes');
 tbody.innerHTML = '';
 
+if (impayes.length === 0) {
+tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888; padding:20px;">Aucun crédit impayé</td></tr>';
+return;
+}
+
 impayes.forEach(imp => {
 const tr = document.createElement('tr');
 tr.innerHTML = `
 <td><strong>${imp.nomClient}</strong></td>
 <td>${imp.telClient}</td>
-<td>${imp.historique.reduce((s, h) => s + h.montantDu, 0).toLocaleString('fr-FR')}</td>
-<td style="font-weight:bold; color:#EF4444;">${imp.resteTotal.toLocaleString('fr-FR')} GNF</td>
-<td><button style="background:#10B981; color:white; padding:6px 10px; font-size:13px;" onclick="payerReste('${imp.telClient}')">Payer le reste</button></td>
+<td>${imp.historique.reduce((sum, h) => sum + (h.montantDu || 0), 0).toLocaleString('fr-FR')}</td>
+<td style="color:#DC2626; font-weight:bold;">${imp.resteTotal.toLocaleString('fr-FR')}</td>
+<td>
+<button style="background:#10B981; color:white; padding:6px 12px; font-size:13px;" onclick="payerReste('${imp.telClient}')">💳 Payer</button>
+</td>
 `;
 tbody.appendChild(tr);
 });
-
-document.getElementById('totalImpayes').textContent = impayes.reduce((sum, i) => sum + i.resteTotal, 0).toLocaleString('fr-FR');
 }
 
 function payerReste(telClient) {
@@ -804,9 +943,10 @@ const idx = impayes.findIndex(imp => imp.telClient === telClient);
 
 if (idx === -1) return;
 
+// Déduire du reste total
 impayes[idx].resteTotal = Math.max(0, impayes[idx].resteTotal - montantVerser);
 
-// Enregistrer le paiement dans l'historique
+// Enregistrer dans l'historique
 impayes[idx].historique.push({
 date: new Date().toLocaleDateString('fr-FR'),
 facture: 'Paiement',
@@ -814,54 +954,36 @@ montantVerser: montantVerser,
 resteApres: impayes[idx].resteTotal
 });
 
-// Si tout est payé, supprimer
+const message = impayes[idx].resteTotal > 0
+? `✅ Paiement enregistré !\nReste dû : ${impayes[idx].resteTotal.toLocaleString('fr-FR')} GNF`
+: `✅ Paiement complet !\nAucun reste à payer pour ce client.`;
+
+// Si reste = 0, supprimer de la liste des impayés
 if (impayes[idx].resteTotal <= 0) {
 impayes.splice(idx, 1);
-alert('✅ Ce client n\'a plus de crédit impayé !');
-} else {
-alert('✅ Paiement enregistré ! Reste : ' + impayes[idx].resteTotal + ' GNF');
 }
 
 localStorage.setItem('impayes', JSON.stringify(impayes));
+alert(message);
+
 rafraichirImpayes();
 rafraichirTableauDeBord();
 }
 
 // === FACTURE ===
-function chercherFacture() {
-const recherche = document.getElementById('rechercheFacture').value.trim().toLowerCase();
-const ventes = JSON.parse(localStorage.getItem('ventes') || '[]');
+function afficherFacture(vente) {
+factureActuelle = vente;
 
-const trouve = ventes.find(v => 
-v.nomClient.toLowerCase().includes(recherche) || 
-v.telClient.includes(recherche) ||
-v.numeroFacture.toLowerCase().includes(recherche)
-);
-
-if (trouve) {
-factureActuelle = trouve;
-afficherFacture(trouve);
-} else {
-alert('Aucune facture trouvée !');
-}
-}
-
-function afficherFacture(fact) {
-const entreprise = JSON.parse(localStorage.getItem('entreprise') || '{}');
-document.getElementById('factureNomEntreprise').textContent = entreprise.nom || 'ENSEB-CLIM';
-document.getElementById('factureInfoEntreprise').innerHTML = (entreprise.slogan || 'Installation Energie Solaire, Electricité Bâtiment et Climatisation') + '<br>' +
-(entreprise.adresse || 'Adresse: Bentrouraya, Carrefour A. Dieng') + '<br>' +
-'Tél: ' + (entreprise.telephone || '620-34-99-50 / 628-98-38-83') + '<br>' +
-'NºRCCM: ' + (entreprise.rccm || 'GN.TCC.2024, A 03655');
-
-document.getElementById('factureNum').textContent = fact.numeroFacture;
-document.getElementById('factureDate').textContent = fact.date;
-document.getElementById('factureClient').textContent = fact.nomClient;
-document.getElementById('factureTel').textContent = fact.telClient;
+document.getElementById('factureNum').textContent = vente.numeroFacture;
+document.getElementById('factureDate').textContent = vente.date;
+document.getElementById('factureClient').textContent = vente.nomClient;
+document.getElementById('factureTel').textContent = vente.telClient;
 
 const tbody = document.getElementById('factureContenu');
 tbody.innerHTML = '';
-fact.produits.forEach(p => {
+
+if (vente.detailsProduits && vente.detailsProduits.length > 0) {
+vente.detailsProduits.forEach(p => {
 tbody.innerHTML += `
 <tr>
 <td>${p.nom}</td>
@@ -871,11 +993,33 @@ tbody.innerHTML += `
 </tr>
 `;
 });
+} else {
+tbody.innerHTML = `<tr><td colspan="4">${vente.produits}</td></tr>`;
+}
 
-document.getElementById('factureTotal').textContent = fact.montantTotal.toLocaleString('fr-FR');
-document.getElementById('facturePaye').textContent = fact.montantPaye.toLocaleString('fr-FR');
-document.getElementById('factureReste').textContent = fact.reste.toLocaleString('fr-FR');
-document.getElementById('factureStatut').textContent = fact.reste <= 0 ? '✅ Payé et Livré' : '⚠️ Partiellement payé — Reste : ' + fact.reste + ' GNF';
+document.getElementById('factureTotal').textContent = vente.montantTotal.toLocaleString('fr-FR');
+document.getElementById('facturePaye').textContent = vente.montantPaye.toLocaleString('fr-FR');
+document.getElementById('factureReste').textContent = vente.reste.toLocaleString('fr-FR');
+document.getElementById('factureStatut').textContent = vente.reste > 0 ? '⚠️ Impayé' : '✅ Payé — Livré';
+}
+
+function chercherFacture() {
+const recherche = document.getElementById('rechercheFacture').value.trim().toLowerCase();
+if (!recherche) { alert('Entrez un nom ou un numéro !'); return; }
+
+const ventes = JSON.parse(localStorage.getItem('ventes') || '[]');
+const trouve = ventes.filter(v => 
+v.nomClient.toLowerCase().includes(recherche) || 
+v.telClient.includes(recherche)
+);
+
+if (trouve.length === 0) {
+alert('Aucune facture trouvée pour ce client.');
+return;
+}
+
+// Prendre la plus récente
+afficherFacture(trouve[trouve.length - 1]);
 }
 
 function imprimerFacture() {
@@ -885,47 +1029,74 @@ window.print();
 function partagerWhatsApp() {
 if (!factureActuelle) { alert('Générez une facture d\'abord !'); return; }
 
-const entreprise = JSON.parse(localStorage.getItem('entreprise') || '{}');
-let texte = `📄 *FACTURE N° ${factureActuelle.numeroFacture}*
+const f = factureActuelle;
+const texte = `
+📄 FACTURE — ${document.getElementById('factureNomEntreprise').textContent}
+N°: ${f.numeroFacture}
+Date: ${f.date}
 
-*${entreprise.nom || 'ENSEB-CLIM'}*
-${entreprise.slogan || 'Installation Energie Solaire, Electricité Bâtiment et Climatisation'}
-📅 Date: ${factureActuelle.date}
-👤 Client: ${factureActuelle.nomClient}
-📞 Téléphone: ${factureActuelle.telClient}
+👤 Client: ${f.nomClient}
+📞 Tél: ${f.telClient}
 
-*DÉTAIL DES PRODUITS:*
-${factureActuelle.produits.map(p => `• ${p.nom} × ${p.quantite} = ${p.total.toLocaleString('fr-FR')} GNF`).join('\n')}
+📦 Produits:
+${f.detailsProduits ? f.detailsProduits.map(p => `• ${p.nom} × ${p.quantite} = ${p.total.toLocaleString('fr-FR')} GNF`).join('\n') : f.produits}
 
-💰 *TOTAL: ${factureActuelle.montantTotal.toLocaleString('fr-FR')} GNF*
-✅ Payé: ${factureActuelle.montantPaye.toLocaleString('fr-FR')} GNF
-${factureActuelle.reste > 0 ? `⚠️ Reste à payer: ${factureActuelle.reste.toLocaleString('fr-FR')} GNF` : '✅ Payé et Livré — Merci !'}
-`;
+━━━━━━━━━━━━━━
+💰 Total: ${f.montantTotal.toLocaleString('fr-FR')} GNF
+✅ Payé: ${f.montantPaye.toLocaleString('fr-FR')} GNF
+⚠️ Reste à payer: ${f.reste.toLocaleString('fr-FR')} GNF
 
-const url = `https://wa.me/${factureActuelle.telClient}?text=${encodeURIComponent(texte)}`;
-window.open(url, '_blank');
+${f.reste === 0 ? '✅ PAYÉ ENTIÈREMENT — MERCI !' : 'Merci pour votre confiance 😊'}
+`.trim();
+
+const lien = `https://wa.me/${f.telClient.replace(/\D/g, '')}?text=${encodeURIComponent(texte)}`;
+window.open(lien, '_blank');
 }
 
 // === ENTREPRISE ===
 function sauvegarderEntreprise() {
 const entreprise = {
-nom: document.getElementById('nomEntreprise').value.trim(),
-slogan: document.getElementById('sloganEntreprise').value.trim(),
-adresse: document.getElementById('adresseEntreprise').value.trim(),
-telephone: document.getElementById('telEntreprise').value.trim(),
-rccm: document.getElementById('rccmEntreprise').value.trim()
+nom: document.getElementById('nomEntreprise').value.trim() || 'ENSEB-CLIM',
+slogan: document.getElementById('sloganEntreprise').value.trim() || 'Installation Energie Solaire, Electricité Bâtiment et Climatisation',
+adresse: document.getElementById('adresseEntreprise').value.trim() || 'Bentrouraya, Carrefour A. Dieng',
+telephone: document.getElementById('telEntreprise').value.trim() || '620-34-99-50 / 628-98-38-83 / 614-07-67-16',
+rccm: document.getElementById('rccmEntreprise').value.trim() || 'GN.TCC.2024, A 03655'
 };
+
 localStorage.setItem('entreprise', JSON.stringify(entreprise));
-alert('✅ Informations entreprise sauvegardées !');
+appliquerInfosEntreprise(entreprise);
+alert('✅ Informations de l\'entreprise sauvegardées !');
 }
 
 function chargerEntreprise() {
-const entreprise = JSON.parse(localStorage.getItem('entreprise') || '{}');
-document.getElementById('nomEntreprise').value = entreprise.nom || '';
-document.getElementById('sloganEntreprise').value = entreprise.slogan || '';
-document.getElementById('adresseEntreprise').value = entreprise.adresse || '';
-document.getElementById('telEntreprise').value = entreprise.telephone || '';
-document.getElementById('rccmEntreprise').value = entreprise.rccm || '';
+const defaut = {
+nom: 'ENSEB-CLIM',
+slogan: 'Installation Energie Solaire, Electricité Bâtiment et Climatisation',
+adresse: 'Bentrouraya, Carrefour A. Dieng',
+telephone: '620-34-99-50 / 628-98-38-83 / 614-07-67-16',
+rccm: 'GN.TCC.2024, A 03655'
+};
+
+const sauvegardee = JSON.parse(localStorage.getItem('entreprise') || 'null');
+const entreprise = sauvegardee || defaut;
+
+document.getElementById('nomEntreprise').value = entreprise.nom;
+document.getElementById('sloganEntreprise').value = entreprise.slogan;
+document.getElementById('adresseEntreprise').value = entreprise.adresse;
+document.getElementById('telEntreprise').value = entreprise.telephone;
+document.getElementById('rccmEntreprise').value = entreprise.rccm;
+
+appliquerInfosEntreprise(entreprise);
+}
+
+function appliquerInfosEntreprise(e) {
+document.getElementById('factureNomEntreprise').textContent = e.nom;
+document.getElementById('factureInfoEntreprise').innerHTML = `
+${e.slogan}<br>
+Adresse: ${e.adresse}<br>
+Tél: ${e.telephone}<br>
+NºRCCM: ${e.rccm}
+`;
 }
 
 // === TABLEAU DE BORD ===
@@ -940,43 +1111,14 @@ const caJour = ventes
 .filter(v => v.date === aujourdHui)
 .reduce((sum, v) => sum + v.montantTotal, 0);
 
-document.getElementById('totalProduits').textContent = produits.length;
-document.getElementById('totalVentesJour').textContent = caJour.toLocaleString('fr-FR');
-document.getElementById('totalImpayes').textContent = impayes.reduce((sum, i) => sum + i.resteTotal, 0).toLocaleString('fr-FR');
+// Total impayés
+const totalImpayes = impayes.reduce((sum, imp) => sum + imp.resteTotal, 0);
+
+document.getElementById('nbProduits').textContent = produits.length;
+document.getElementById('caJour').textContent = caJour.toLocaleString('fr-FR');
+document.getElementById('totalImpayes').textContent = totalImpayes.toLocaleString('fr-FR');
 }
 
-// === ADMIN ===
-function rafraichirListeUtilisateurs() {
-if (!utilisateurActuel || !utilisateurActuel.estAdmin) return;
-
-const utilisateurs = JSON.parse(localStorage.getItem('utilisateurs') || '[]');
-const tbody = document.getElementById('listeUtilisateurs');
-tbody.innerHTML = '';
-
-utilisateurs.forEach(u => {
-const tr = document.createElement('tr');
-tr.innerHTML = `
-<td>${u.nom}</td>
-<td>${u.tel}</td>
-<td>${new Date(u.dateInscription).toLocaleDateString('fr-FR')}</td>
-<td>${u.estAdmin ? '🔒 Administrateur' : 
-`<button style="background:#EF4444; color:white; padding:5px 10px; font-size:13px; border-radius:4px;" onclick="supprimerUtilisateur('${u.tel}')">🗑️ Supprimer</button>`
-}</td>
-`;
-tbody.appendChild(tr);
-});
-}
-
-function supprimerUtilisateur(tel) {
-if (!confirm('⚠️ Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) return;
-
-let utilisateurs = JSON.parse(localStorage.getItem('utilisateurs') || '[]');
-utilisateurs = utilisateurs.filter(u => u.tel !== tel);
-localStorage.setItem('utilisateurs', JSON.stringify(utilisateurs));
-
-alert('✅ Utilisateur supprimé avec succès !');
-rafraichirListeUtilisateurs();
-}
 </script>
 </body>
 </html>
