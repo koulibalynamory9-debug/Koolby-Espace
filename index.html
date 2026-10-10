@@ -439,16 +439,22 @@ alert('Aucun compte trouvé avec ce numéro. Veuillez vous inscrire.');
 
 function connexionAdmin() {
 const code = document.getElementById('codeAdmin').value.trim();
-// Code administrateur par défaut
 if (code === 'Admin2026') {
-estAdmin = true;
-utilisateurActuel = { nom: 'Administrateur', tel: 'Admin', estAdmin: true };
+localStorage.setItem('estAdmin', 'oui');
+document.getElementById('ecranConnexion').classList.add('cacher');
+document.getElementById('appPrincipale').classList.remove('cacher');
 document.getElementById('ongletAdmin').classList.remove('cacher');
-ouvrirApplication();
+document.getElementById('infoUtilisateurConnecte').innerHTML = '🔒 Administrateur';
+rafraichirTableauDeBord();
+rafraichirListeProduits();
+rafraichirListeVentes();
+rafraichirImpayes();
+rafraichirListeUtilisateurs();
 } else {
-alert('Code administrateur incorrect !');
+alert('❌ Code administrateur incorrect !');
 }
 }
+
 
 function ouvrirApplication() {
 document.getElementById('ecranBienvenue').classList.add('cacher');
